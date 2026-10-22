@@ -48,6 +48,7 @@ import {
 import chunk from 'lodash/chunk';
 import { AuthService, LoggerService } from '@backstage/backend-plugin-api';
 import { CatalogService } from '@backstage/plugin-catalog-node';
+import { V2Configuration } from '@okta/okta-sdk-nodejs/src/types/configuration';
 
 const DEFAULT_CHUNK_SIZE = 250;
 const DEFAULT_MEMBERSHIP_TIMESTAMP_ANNOTATION =
@@ -113,6 +114,7 @@ export class OktaOrgEntityProvider extends OktaEntityProvider {
        * Defaults to `okta.roadie.io/last-membership-updated`.
        */
       membershipTimestampAnnotation?: string;
+      clientConfig?: V2Configuration;
     },
   ) {
     const oktaConfig = getAccountConfig(config);
@@ -144,6 +146,7 @@ export class OktaOrgEntityProvider extends OktaEntityProvider {
       catalogClient?: CatalogService;
       auth?: AuthService;
       membershipTimestampAnnotation?: string;
+      clientConfig?: V2Configuration;
     },
   ) {
     super(accountConfig, options);
@@ -354,7 +357,7 @@ export class OktaOrgEntityProvider extends OktaEntityProvider {
     });
 
     this.logger.info(
-      `Finished providing ${providedUserCount} user and ${providedGroupCount} group resources from okta 
+      `Finished providing ${providedUserCount} user and ${providedGroupCount} group resources from okta
       ${
         this.catalogAccess
           ? ` (${reusedGroupIds.size} groups reused unchanged membership)`
