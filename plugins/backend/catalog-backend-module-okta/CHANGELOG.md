@@ -1,17 +1,5 @@
 # @roadiehq/catalog-backend-module-okta
 
-## 1.7.0
-
-### Minor Changes
-
-- 57062da: feat(okta): skip listGroupUsers for groups with unchanged membership
-
-## 1.6.0
-
-### Minor Changes
-
-- 57062da: feat(okta): skip listGroupUsers for groups with unchanged membership
-
 ## 1.5.0
 
 ### Minor Changes

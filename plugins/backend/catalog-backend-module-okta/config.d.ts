@@ -39,11 +39,6 @@ export interface Config {
         userFilter?: string;
         groupFilter?: string;
         schedule: SchedulerServiceTaskScheduleDefinitionConfig;
-        /**
-         * Read by custom entity provider factories to enable the
-         * `skipUnchangedGroups` option of `OktaOrgEntityProvider`.
-         */
-        skipUnchangedGroups?: boolean;
       }[];
     };
   };
