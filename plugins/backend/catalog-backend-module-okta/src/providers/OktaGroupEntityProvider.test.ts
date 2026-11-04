@@ -26,6 +26,7 @@ import {
 } from '@backstage/backend-plugin-api';
 import { MockOktaCollection, createSilentLogger } from '../__testUtils__';
 import { ProfileFieldGroupNamingStrategy } from './groupNamingStrategies';
+import { Client, RequestExecutor } from '@okta/okta-sdk-nodejs';
 
 let listGroups: () => MockOktaCollection = () => {
   return new MockOktaCollection([]);
@@ -954,6 +955,24 @@ describe('OktaGroupProvider', () => {
         expect.stringContaining('catalog not ready'),
       );
       warn.mockRestore();
+    });
+  });
+  describe('when okta-sdk-client configuration is provided', () => {
+    it('uses custom requestExecutor', async () => {
+      const requestExecutor = {} as unknown as RequestExecutor;
+      const entityProviderConnection: EntityProviderConnection = {
+        applyMutation: jest.fn(),
+        refresh: jest.fn(),
+      };
+      const provider = OktaGroupEntityProvider.fromConfig(config, {
+        logger,
+        clientConfig: { requestExecutor },
+      });
+      provider.connect(entityProviderConnection);
+      await provider.run();
+      expect(Client).toHaveBeenCalledWith(
+        expect.objectContaining({ requestExecutor }),
+      );
     });
   });
 });

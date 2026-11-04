@@ -36,6 +36,8 @@ import { getOktaGroups } from './getOktaGroups';
 import { getParentGroup } from './getParentGroup';
 import { OktaGroup, OktaGroupEntityTransformer, asOktaUser } from './types';
 import { AuthService, LoggerService } from '@backstage/backend-plugin-api';
+import { RequestExecutor } from '@okta/okta-sdk-nodejs';
+import { V2Configuration } from '@okta/okta-sdk-nodejs/src/types/configuration';
 import { CatalogService } from '@backstage/plugin-catalog-node';
 
 const DEFAULT_CHUNK_SIZE = 250;
@@ -98,6 +100,7 @@ export class OktaGroupEntityProvider extends OktaEntityProvider {
        * Defaults to `okta.roadie.io/last-membership-updated`.
        */
       membershipTimestampAnnotation?: string;
+      clientConfig?: V2Configuration;
     },
   ) {
     const accountConfig = getAccountConfig(config);
@@ -128,6 +131,7 @@ export class OktaGroupEntityProvider extends OktaEntityProvider {
       catalogClient?: CatalogService;
       auth?: AuthService;
       membershipTimestampAnnotation?: string;
+      requestExecutor?: RequestExecutor;
     },
   ) {
     super(accountConfig, options);
